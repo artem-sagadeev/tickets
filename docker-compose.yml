@@ -1,0 +1,18 @@
+version: '3.4'
+
+services:
+  tickets.db:
+    container_name: tickets.db
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - db_volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "tickets_db"
+
+volumes:
+  db_volume:
