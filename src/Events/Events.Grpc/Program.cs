@@ -1,4 +1,5 @@
 using Events.Grpc.Services;
+using Events.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddGrpc();
+
+builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 

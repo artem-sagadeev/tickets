@@ -1,8 +1,8 @@
 version: '3.4'
 
 services:
-  tickets.db:
-    container_name: tickets.db
+  database:
+    container_name: database
     image: postgres:latest
     ports:
       - "5432:5432"
@@ -12,7 +12,6 @@ services:
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
-      POSTGRES_DB: "tickets_db"
 
 volumes:
   db_volume:
