@@ -25,7 +25,13 @@ namespace Events.Api.Controllers
         [HttpPost]
         public async Task<Guid> CreateEvent(CreateEventModel model)
         {
-            return await _eventService.Create(model.Title);
+            return await _eventService.Create(
+                model.Title,
+                model.Description,
+                model.Date,
+                model.OrganizationId,
+                model.StartTime,
+                model.EndTime);
         }
     }
 }
