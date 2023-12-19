@@ -21,4 +21,8 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Tickets.Infrastructure\Tickets.Infrastructure.csproj" />
+    </ItemGroup>
+
 </Project>

@@ -9,6 +9,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.11"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.14" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
     </ItemGroup>
 
@@ -16,6 +17,11 @@
       <Content Include="..\..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Tickets.Application\Tickets.Application.csproj" />
+      <ProjectReference Include="..\Tickets.Infrastructure\Tickets.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>
