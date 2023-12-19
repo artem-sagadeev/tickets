@@ -15,10 +15,11 @@ public class OrganizationService : IOrganizationService
         _context = context;
     }
 
-    public async Task<OrganizationDto> GetById(Guid organizationId)
+    public async Task<OrganizationDto?> GetById(Guid organizationId)
     {
-        var organization = await _context.Organizations.FirstOrDefaultAsync(x => x.Id == organizationId)
-                           ?? throw new EntityNotFoundException();
+        var organization = await _context.Organizations.FirstOrDefaultAsync(x => x.Id == organizationId);
+        if (organization is null)
+            return null;
 
         return new OrganizationDto
         {

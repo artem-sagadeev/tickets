@@ -16,8 +16,9 @@ public class OrganizationsController : ControllerBase
     }
 
     [HttpGet("{organizationId:guid}")]
-    public async Task<OrganizationDto> GetEvent(Guid organizationId)
+    public async Task<ActionResult<OrganizationDto>> GetOrganization(Guid organizationId)
     {
-        return await _organizationService.GetById(organizationId);
+        var organization = await _organizationService.GetById(organizationId);
+        return organization is null ? NotFound() : Ok(organization);
     }
 }

@@ -4,5 +4,5 @@ namespace Organizations.Application.Interfaces;
 
 public interface IOrganizationService
 {
-    Task<OrganizationDto> GetById(Guid organizationId);
+    Task<OrganizationDto?> GetById(Guid organizationId);
 }

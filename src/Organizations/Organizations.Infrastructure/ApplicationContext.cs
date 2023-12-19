@@ -6,7 +6,7 @@ namespace Organizations.Infrastructure;
 
 public class ApplicationContext : DbContext, IApplicationContext
 {
-    public DbSet<Organization> Organizations { get; }
+    public DbSet<Organization> Organizations { get; set; }
 
     public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) { }
 }
