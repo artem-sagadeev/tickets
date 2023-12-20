@@ -6,5 +6,5 @@ public interface IOrganizationService
 {
     Task<OrganizationDto?> GetById(Guid organizationId);
 
-    Task<Guid> Create(string login, string name, string passwordHash, string description, string inn, string ogrn);
+    Task<Guid> Register(string login, string name, string password, string description, string inn, string ogrn);
 }

@@ -1,6 +1,6 @@
-namespace Organizations.Api.Models;
+namespace Organizations.Api.Models.Requests;
 
-public class CreateOrganizationModel : CreateUserModel
+public class RegisterOrganizationRequestModel : RegisterUserRequestModel
 {
     public string Description { get; set; }
     

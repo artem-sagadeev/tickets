@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Organizations.Api.Models;
+using Organizations.Api.Models.Requests;
 using Organizations.Application.Dto;
+using Organizations.Application.Exceptions;
 using Organizations.Application.Interfaces;
 
 namespace Organizations.Api.Controllers;
@@ -25,8 +26,17 @@ public class UsersController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<Guid> CreateUser(CreateUserModel model)
+    public async Task<ActionResult<Guid>> Register(RegisterUserRequestModel model)
     {
-        return await _userService.Create(model.Login, model.Name, model.PasswordHash);
+        try
+        {
+            var userId = await _userService.Register(model.Login, model.Name, model.Password);
+
+            return Ok(userId);
+        }
+        catch (RegistrationException e)
+        {
+            return Conflict(e.Message);
+        }
     }
 }

@@ -6,5 +6,5 @@ public interface IUserService
 {
     Task<UserDto?> GetById(Guid userId);
     
-    Task<Guid> Create(string login, string name, string passwordHash);
+    Task<Guid> Register(string login, string name, string password);
 }

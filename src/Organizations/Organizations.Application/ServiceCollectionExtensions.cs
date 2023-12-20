@@ -11,7 +11,8 @@ public static class ServiceCollectionExtensions
     {
         return services
             .AddScoped<IUserService, UserService>()
-            .AddScoped<IOrganizationService, OrganizationService>();
+            .AddScoped<IOrganizationService, OrganizationService>()
+            .AddScoped<ITokenService, TokenService>();
     }
 
     public static IServiceCollection AddAutoMapperProfiles(this IServiceCollection services)

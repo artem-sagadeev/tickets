@@ -1,7 +1,9 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Organizations.Application.Dto;
+using Organizations.Application.Exceptions;
 using Organizations.Application.Interfaces;
+using Organizations.Application.Utilities;
 using Organizations.Domain.Entities;
 
 namespace Organizations.Application.Services;
@@ -26,8 +28,13 @@ public class UserService : IUserService
         return user is null ? null : _mapper.Map<UserDto>(user);
     }
 
-    public async Task<Guid> Create(string login, string name, string passwordHash)
+    public async Task<Guid> Register(string login, string name, string password)
     {
+        var isInvalidLogin = _context.Users.Any(x => x.Login == login);
+        if (isInvalidLogin)
+            throw new RegistrationException("This login is already taken.");
+        
+        var passwordHash = Cipher.GetPasswordHash(password);
         var user = new User(login, name, passwordHash);
 
         _context.Users.Add(user);

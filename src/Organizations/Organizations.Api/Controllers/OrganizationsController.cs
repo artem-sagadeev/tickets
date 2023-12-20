@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Organizations.Api.Models;
+using Organizations.Api.Models.Requests;
 using Organizations.Application.Dto;
+using Organizations.Application.Exceptions;
 using Organizations.Application.Interfaces;
 
 namespace Organizations.Api.Controllers;
@@ -25,9 +26,18 @@ public class OrganizationsController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<Guid> CreateOrganization(CreateOrganizationModel model)
+    public async Task<ActionResult<Guid>> CreateOrganization(RegisterOrganizationRequestModel model)
     {
-        return await _organizationService.Create(model.Login, model.Name, model.PasswordHash, model.Description,
-            model.Inn, model.Ogrn);
+        try
+        {
+            var userId = await _organizationService.Register(model.Login, model.Name, model.Password, model.Description,
+                model.Inn, model.Ogrn);
+
+            return Ok(userId);
+        }
+        catch (RegistrationException e)
+        {
+            return Conflict(e.Message);
+        }
     }
 }
