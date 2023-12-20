@@ -13,6 +13,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services
     .AddApplication()
+    .AddAutoMapperProfiles()
     .AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();

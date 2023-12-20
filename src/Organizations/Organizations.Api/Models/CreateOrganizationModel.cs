@@ -1,6 +1,6 @@
-namespace Organizations.Application.Dto;
+namespace Organizations.Api.Models;
 
-public class OrganizationDto : UserDto
+public class CreateOrganizationModel : CreateUserModel
 {
     public string Description { get; set; }
     

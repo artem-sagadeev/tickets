@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Organizations.Api.Models;
 using Organizations.Application.Dto;
 using Organizations.Application.Interfaces;
 
@@ -19,6 +20,14 @@ public class OrganizationsController : ControllerBase
     public async Task<ActionResult<OrganizationDto>> GetOrganization(Guid organizationId)
     {
         var organization = await _organizationService.GetById(organizationId);
+        
         return organization is null ? NotFound() : Ok(organization);
+    }
+    
+    [HttpPost]
+    public async Task<Guid> CreateOrganization(CreateOrganizationModel model)
+    {
+        return await _organizationService.Create(model.Login, model.Name, model.PasswordHash, model.Description,
+            model.Inn, model.Ogrn);
     }
 }

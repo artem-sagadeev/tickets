@@ -1,15 +1,20 @@
 namespace Organizations.Domain.Entities;
 
-public class Organization
+public class Organization : User
 {
-    public Guid Id { get; private set; }
+    public string Description { get; private set; }
     
-    public string Name { get; private set; }
+    public string Inn { get; private set; }
 
-    public Organization(string name)
+    public string Ogrn { get; private set; }
+
+    public Organization(string login, string name, string passwordHash, string description, string inn, string ogrn)
+        : base(login, name, passwordHash, UserType.Organization)
     {
-        Name = name;
+        Description = description;
+        Inn = inn;
+        Ogrn = ogrn;
     }
         
-    private Organization() {}
+    private Organization() { }
 }
