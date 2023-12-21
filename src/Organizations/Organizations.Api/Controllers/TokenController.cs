@@ -1,5 +1,6 @@
 using System.Security.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Organizations.Api.Models.Requests;
 using Organizations.Application.Interfaces;
 
 namespace Organizations.Api.Controllers;
@@ -15,12 +16,12 @@ public class TokenController : ControllerBase
         _tokenService = tokenService;
     }
     
-    [HttpGet]
-    public async Task<ActionResult<string>> Get(string login, string password)
+    [HttpPost]
+    public async Task<ActionResult<string>> Get(GetTokenRequestModel model)
     {
         try
         {
-            var token = await _tokenService.GetToken(login, password);
+            var token = await _tokenService.GetToken(model.Login, model.Password);
 
             return Ok(token);
         }
