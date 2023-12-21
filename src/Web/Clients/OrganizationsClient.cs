@@ -15,8 +15,7 @@ namespace Web.Clients
 
         public async Task<OrganizationDto?> GetByIdAsync(Guid id)
         {
-            var url = $"api/organizations/{id}";
-            var response = await _httpClient.GetAsync(url);
+            var response = await _httpClient.GetAsync($"{id}");
             var content = await response.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<OrganizationDto>(content);
