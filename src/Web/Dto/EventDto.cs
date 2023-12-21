@@ -1,6 +1,4 @@
-﻿using Events.Domain.Entities;
-
-namespace Events.Application.Dto
+﻿namespace Web.Dto
 {
     public class EventDto
     {
@@ -21,18 +19,5 @@ namespace Events.Application.Dto
         public bool IsPast { get; set; }
         
         public string? ImageName { get; set; }
-
-        public EventDto(Event _event)
-        {
-            Id = _event.Id;
-            Title = _event.Title;
-            Description = _event.Description;
-            Date = _event.Date;
-            StartTime = _event.StartTime;
-            EndTime = _event.EndTime;
-            OrganizationId = _event.OrganizationId;
-            IsPast = _event.IsPast;
-            ImageName = _event.ImageName;
-        }
     }
 }

@@ -25,7 +25,18 @@ namespace Events.Api.Controllers
         [HttpPost]
         public async Task<Guid> CreateEvent(CreateEventModel model)
         {
-            return await _eventService.Create(model.Title);
+            return await _eventService.Create(
+                model.Title,
+                model.Description,
+                model.Date,
+                model.OrganizationId,
+                null, null, null);
+        }
+
+        [HttpGet("Search")]
+        public async Task<IEnumerable<EventDto>> Search(string? search)
+        {
+            return await _eventService.SearchEvents(search);
         }
     }
 }
