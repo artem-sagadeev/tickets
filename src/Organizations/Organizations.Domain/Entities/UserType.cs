@@ -1,7 +1,9 @@
+using System.ComponentModel;
+
 namespace Organizations.Domain.Entities;
 
 public enum UserType
 {
-    User,
-    Organization
+    [Description(nameof(User))] User,
+    [Description(nameof(Organization))] Organization
 }

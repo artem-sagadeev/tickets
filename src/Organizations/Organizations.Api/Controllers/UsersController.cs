@@ -26,6 +26,7 @@ public class UsersController : ControllerBase
     }
     
     [HttpPost]
+    [Route("Register")]
     public async Task<ActionResult<Guid>> Register(RegisterUserRequestModel model)
     {
         try

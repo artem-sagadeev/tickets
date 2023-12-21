@@ -26,12 +26,13 @@ public class OrganizationsController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<ActionResult<Guid>> CreateOrganization(RegisterOrganizationRequestModel model)
+    [Route("Register")]
+    public async Task<ActionResult<Guid>> Register(RegisterOrganizationRequestModel model)
     {
         try
         {
-            var userId = await _organizationService.Register(model.Login, model.Name, model.Password, model.Description,
-                model.Inn, model.Ogrn);
+            var userId = await _organizationService.Register(model.Login, model.Name, model.Password, model.Inn,
+                model.Ogrn);
 
             return Ok(userId);
         }

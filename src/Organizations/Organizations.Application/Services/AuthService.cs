@@ -3,6 +3,7 @@ using System.Security.Authentication;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
+using Common.Application.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Organizations.Application.Interfaces;
@@ -10,14 +11,16 @@ using Organizations.Application.Utilities;
 
 namespace Organizations.Application.Services;
 
-public class TokenService : ITokenService
+public class AuthService : IAuthService
 {
     private const string UserIdClaimName = "user_id";
+    private const string UserNameClaimName = "user_name";
+    private const string UserTypeClaimName = "user_type";
     private const string Secret = "supermegasecretkey";
     
     private readonly IApplicationContext _context;
 
-    public TokenService(IApplicationContext context)
+    public AuthService(IApplicationContext context)
     {
         _context = context;
     }
@@ -35,7 +38,12 @@ public class TokenService : ITokenService
         var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
 
         var identity = new ClaimsIdentity(new GenericIdentity(user.Login),
-            new[] { new Claim(UserIdClaimName, user.Id.ToString()) });
+            new[]
+            {
+                new Claim(UserIdClaimName, user.Id.ToString()),
+                new Claim(UserNameClaimName, user.Name),
+                new Claim(UserTypeClaimName, user.UserType.GetDescription())
+            });
 
         var token = jwtTokenHandler.CreateJwtSecurityToken(
             subject: identity,

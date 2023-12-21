@@ -7,21 +7,22 @@ namespace Organizations.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class TokenController : ControllerBase
+public class AuthController : ControllerBase
 {
-    private readonly ITokenService _tokenService;
+    private readonly IAuthService _authService;
 
-    public TokenController(ITokenService tokenService)
+    public AuthController(IAuthService authService)
     {
-        _tokenService = tokenService;
+        _authService = authService;
     }
     
     [HttpPost]
-    public async Task<ActionResult<string>> Get(GetTokenRequestModel model)
+    [Route("Login")]
+    public async Task<ActionResult<string>> Login(GetTokenRequestModel model)
     {
         try
         {
-            var token = await _tokenService.GetToken(model.Login, model.Password);
+            var token = await _authService.GetToken(model.Login, model.Password);
 
             return Ok(token);
         }
