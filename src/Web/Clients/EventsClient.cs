@@ -14,7 +14,7 @@ namespace Web.Clients
             _httpClient.BaseAddress = new Uri(configuration["EventsBaseAddress"]!);
         }
 
-        public async Task<IEnumerable<EventDto>?> Search(string? search)
+        public async Task<IEnumerable<EventDto>?> SearchAsync(string? search)
         {
             var sb = new StringBuilder();
             sb.Append("search?");
@@ -28,7 +28,7 @@ namespace Web.Clients
             return JsonConvert.DeserializeObject<IEnumerable<EventDto>>(content);
         }
 
-        public async Task<EventDto?> GetById(Guid id)
+        public async Task<EventDto?> GetByIdAsync(Guid id)
         {
             var response = await _httpClient.GetAsync($"{id}");
             var content = await response.Content.ReadAsStringAsync();
@@ -36,9 +36,9 @@ namespace Web.Clients
             return JsonConvert.DeserializeObject<EventDto>(content);
         } 
         
-        public async Task<IEnumerable<EventDto>?> GetByOrganizationId(Guid organizationId)
+        public async Task<IEnumerable<EventDto>?> GetByOrganizationIdAsync(Guid organizationId)
         {
-            var url = $"api/events/future?organizationId={organizationId}";
+            var url = $"future?organizationId={organizationId}";
             
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();

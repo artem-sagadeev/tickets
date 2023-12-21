@@ -21,8 +21,8 @@ namespace Web.Pages.Organizations
         
         public async Task OnGet(Guid id)
         {
-            OrganizationDto = await _organizationsClient.GetById(id);
-            FutureEvents = await _eventsClient.GetByOrganizationId(id);
+            OrganizationDto = await _organizationsClient.GetByIdAsync(id);
+            FutureEvents = await _eventsClient.GetByOrganizationIdAsync(id);
         }
     }
 }
