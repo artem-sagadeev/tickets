@@ -36,9 +36,19 @@ namespace Web.Clients
             return JsonConvert.DeserializeObject<EventDto>(content);
         } 
         
-        public async Task<IEnumerable<EventDto>?> GetByOrganizationIdAsync(Guid organizationId)
+        public async Task<IEnumerable<EventDto>?> GetFutureEventsAsync(Guid organizationId)
         {
             var url = $"future?organizationId={organizationId}";
+            
+            var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<IEnumerable<EventDto>>(content);
+        }
+        
+        public async Task<IEnumerable<EventDto>?> GetByOrganizationIdAsync(Guid organizationId)
+        {
+            var url = $"?organizationId={organizationId}";
             
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -50,10 +60,11 @@ namespace Web.Clients
         {
             var request = new
             {
-                dto.Title,
-                dto.Description,
-                dto.OrganizationId,
-                dto.Date
+                title = dto.Title,
+                description = dto.Description,
+                organizationId = dto.OrganizationId,
+                date = dto.Date,
+                imageName = dto.File.FileName
             };
             await _httpClient.PostAsJsonAsync(string.Empty, request);
         }

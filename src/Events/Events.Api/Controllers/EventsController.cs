@@ -30,13 +30,19 @@ namespace Events.Api.Controllers
                 model.Description,
                 model.Date,
                 model.OrganizationId,
-                null);
+                model.ImageName);
         }
 
         [HttpGet("Search")]
         public async Task<IEnumerable<EventDto>> Search(string? search)
         {
             return await _eventService.SearchEvents(search);
+        }
+        
+        [HttpGet]
+        public async Task<IEnumerable<EventDto>> GetByOrganizationId(Guid organizationId)
+        {
+            return await _eventService.GetByOrganizationId(organizationId, false);
         }
 
         [HttpGet("Future")]

@@ -28,11 +28,11 @@ namespace Events.Application.Services
             return new EventDto(_event, organizationName);
         }
 
-        public async Task<IEnumerable<EventDto>> GetByOrganizationId(Guid organizationId)
+        public async Task<IEnumerable<EventDto>> GetByOrganizationId(Guid organizationId, bool onlyFuture = true)
         {
             var events = await _context.Events
                 .Where(_event => _event.OrganizationId == organizationId && !_event.IsDeleted &&
-                                 DateOnly.FromDateTime(DateTime.UtcNow) < _event.Date)
+                                 (!onlyFuture || DateOnly.FromDateTime(DateTime.UtcNow) < _event.Date))
                 .ToListAsync();
 
             var result = new List<EventDto>();
