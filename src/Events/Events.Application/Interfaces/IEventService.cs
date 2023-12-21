@@ -8,10 +8,10 @@ namespace Events.Application.Interfaces
 
         Task<IEnumerable<EventDto>> GetByOrganizationId(Guid organizationId);
         
-        Task<IEnumerable<EventDto>> SearchEvents(string? searchString, DateOnly? from, DateOnly? to);
+        Task<IEnumerable<EventDto>> SearchEvents(string? searchString);
 
         Task<Guid> Create(string title, string description, DateOnly date, Guid organizationId, 
-            TimeOnly? startTime, TimeOnly? endTime);
+            TimeOnly? startTime, TimeOnly? endTime, string? imageName);
 
         Task Update(Guid eventId, string title, string description, DateOnly date, TimeOnly? startTime, 
             TimeOnly? endTime);

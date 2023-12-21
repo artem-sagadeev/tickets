@@ -32,16 +32,11 @@ namespace Events.Application.Services
             return events;
         }
         
-        public async Task<IEnumerable<EventDto>> SearchEvents(
-            string? searchString, 
-            DateOnly? from,
-            DateOnly? to)
+        public async Task<IEnumerable<EventDto>> SearchEvents(string? searchString)
         {
             var events = await _context.Events.Where(_event =>
                 !_event.IsDeleted &&
-                (searchString == null || _event.Title.ToLower().Contains(searchString.ToLower())) &&
-                (from == null || _event.Date >= from) &&
-                (to == null || _event.Date <= to))
+                (searchString == null || _event.Title.ToLower().Contains(searchString.ToLower())))
                 .Select(_event => new EventDto(_event))
                 .ToListAsync();
 
@@ -54,9 +49,10 @@ namespace Events.Application.Services
             DateOnly date,
             Guid organizationId,
             TimeOnly? startTime,
-            TimeOnly? endTime)
+            TimeOnly? endTime,
+            string? imageName)
         {
-            var _event = new Event(title, description, date, organizationId, startTime, endTime);
+            var _event = new Event(title, description, date, organizationId, startTime, endTime, imageName);
 
             _context.Events.Add(_event);
             await _context.SaveChangesAsync();

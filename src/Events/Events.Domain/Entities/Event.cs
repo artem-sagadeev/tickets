@@ -19,6 +19,8 @@ namespace Events.Domain.Entities
         public Guid OrganizationId { get; private set; }
         
         public bool IsDeleted { get; private set; }
+        
+        public string? ImageName { get; private set; }
 
         public bool IsPast => DateOnly.FromDateTime(DateTime.UtcNow) > Date;
         
@@ -28,7 +30,8 @@ namespace Events.Domain.Entities
             DateOnly date,
             Guid organizationId,
             TimeOnly? startTime,
-            TimeOnly? endTime)
+            TimeOnly? endTime,
+            string? imageName)
         {
             Id = Guid.NewGuid();
             Title = title;
@@ -38,6 +41,7 @@ namespace Events.Domain.Entities
             StartTime = startTime;
             EndTime = endTime;
             IsDeleted = false;
+            ImageName = imageName;
         }
 
         public void Update(
