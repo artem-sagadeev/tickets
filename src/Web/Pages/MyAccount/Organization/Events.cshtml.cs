@@ -25,7 +25,6 @@ public class EventsModel : PageModel
             return RedirectToPage("/Auth/Login");
         
         var organizationId = _tokenService.GetUserId();
-        //TODO: получать все мои события
         var events = await _eventsClient.GetByOrganizationIdAsync(new Guid(organizationId!));
         Events = events?.OrderByDescending(x => x.Date).ToArray() ?? Array.Empty<EventDto>();
         
