@@ -45,5 +45,17 @@ namespace Web.Clients
 
             return JsonConvert.DeserializeObject<IEnumerable<EventDto>>(content);
         }
+
+        public async Task Create(CreateEventDto dto)
+        {
+            var request = new
+            {
+                dto.Title,
+                dto.Description,
+                dto.OrganizationId,
+                dto.Date
+            };
+            await _httpClient.PostAsJsonAsync(string.Empty, request);
+        }
     }
 }

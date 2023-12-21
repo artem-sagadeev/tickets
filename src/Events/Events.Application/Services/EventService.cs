@@ -71,11 +71,9 @@ namespace Events.Application.Services
             string description,
             DateOnly date,
             Guid organizationId,
-            TimeOnly? startTime,
-            TimeOnly? endTime,
             string? imageName)
         {
-            var _event = new Event(title, description, date, organizationId, startTime, endTime, imageName);
+            var _event = new Event(title, description, date, organizationId, imageName);
 
             _context.Events.Add(_event);
             await _context.SaveChangesAsync();
@@ -87,13 +85,11 @@ namespace Events.Application.Services
             Guid eventId,
             string title,
             string description,
-            DateOnly date,
-            TimeOnly? startTime,
-            TimeOnly? endTime)
+            DateOnly date)
         {
             var _event = await GetEventById(eventId);
             
-            _event.Update(title, description, date, startTime, endTime);
+            _event.Update(title, description, date);
 
             await _context.SaveChangesAsync();
         }

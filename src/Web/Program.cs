@@ -10,6 +10,8 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IEventService, EventService>();
 
 builder.Services.AddScoped<EventsClient>();
 builder.Services.AddScoped<OrganizationsClient>();
