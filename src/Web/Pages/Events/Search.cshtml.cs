@@ -17,7 +17,7 @@ namespace Web.Pages.Events
         
         public async Task OnGet(string? search)
         {
-            Events = await _eventsClient.Search(search);
+            Events = await _eventsClient.SearchAsync(search);
         }
     }
 }

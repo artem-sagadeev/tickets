@@ -17,7 +17,7 @@ namespace Web.Pages.Events
         
         public async Task OnGet(Guid id)
         {
-            EventDto = await _eventsClient.GetById(id);
+            EventDto = await _eventsClient.GetByIdAsync(id);
         }
     }
 }

@@ -1,20 +1,21 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Web.Clients;
 using Web.Interfaces;
 
 namespace Web.Pages.Auth;
 
 public class LoginModel : PageModel
 {
-    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly AuthClient _authClient;
     private readonly ITokenService _tokenService;
 
     public LoginModel(
-        IHttpClientFactory httpClientFactory, 
+        AuthClient authClient,
         ITokenService tokenService)
     {
-        _httpClientFactory = httpClientFactory;
+        _authClient = authClient;
         _tokenService = tokenService;
     }
 
@@ -33,11 +34,7 @@ public class LoginModel : PageModel
         if (!ModelState.IsValid)
             return Page();
         
-        var client = _httpClientFactory.CreateClient();
-        
-        var requestModel = new { Login, Password };
-        //TODO: requestUri
-        var response = await client.PostAsJsonAsync("http://localhost:5066/api/Auth/Login", requestModel);
+        var response = await _authClient.LoginAsync(Login, Password);
             
         if (response.IsSuccessStatusCode)
         {

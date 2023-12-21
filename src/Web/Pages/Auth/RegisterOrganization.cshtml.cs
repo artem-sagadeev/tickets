@@ -1,12 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Web.Clients;
 
 namespace Web.Pages.Auth;
 
 public class RegisterOrganizationModel : PageModel
 {
-    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly OrganizationsClient _organizationsClient;
     
     [BindProperty]
     [Required]
@@ -37,9 +38,9 @@ public class RegisterOrganizationModel : PageModel
 
     public string ErrorMessage = string.Empty;
 
-    public RegisterOrganizationModel(IHttpClientFactory httpClientFactory)
+    public RegisterOrganizationModel(OrganizationsClient organizationsClient)
     {
-        _httpClientFactory = httpClientFactory;
+        _organizationsClient = organizationsClient;
     }
 
     public async Task<IActionResult> OnPostAsync()
@@ -47,11 +48,7 @@ public class RegisterOrganizationModel : PageModel
         if (!ModelState.IsValid)
             return Page();
         
-        var client = _httpClientFactory.CreateClient();
-
-        var requestModel = new { Login, Name, Password, Inn, Ogrn };
-        //TODO: requestUri
-        var response = await client.PostAsJsonAsync("http://localhost:5066/api/Organizations/Register", requestModel);
+        var response = await _organizationsClient.RegisterAsync(Login, Name, Password, Inn, Ogrn);
 
         if (response.IsSuccessStatusCode)
             return RedirectToPage("/Auth/Login");
