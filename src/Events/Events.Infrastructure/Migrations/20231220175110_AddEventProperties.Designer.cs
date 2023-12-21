@@ -3,6 +3,7 @@ using System;
 using Events.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Events.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20231220175110_AddEventProperties")]
+    partial class AddEventProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,10 +44,6 @@ namespace Events.Infrastructure.Migrations
                     b.Property<TimeOnly?>("EndTime")
                         .HasColumnType("time without time zone")
                         .HasColumnName("end_time");
-
-                    b.Property<string>("ImageName")
-                        .HasColumnType("text")
-                        .HasColumnName("image_name");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean")

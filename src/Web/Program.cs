@@ -1,7 +1,11 @@
+using Web.Clients;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddScoped<EventsClient>();
 
 var app = builder.Build();
 
