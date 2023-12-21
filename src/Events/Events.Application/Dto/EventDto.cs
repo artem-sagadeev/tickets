@@ -18,11 +18,13 @@ namespace Events.Application.Dto
         
         public Guid OrganizationId { get; set; }
         
+        public string OrganizationName { get; set; }
+        
         public bool IsPast { get; set; }
         
         public string? ImageName { get; set; }
 
-        public EventDto(Event _event)
+        public EventDto(Event _event, string organizationName)
         {
             Id = _event.Id;
             Title = _event.Title;
@@ -33,6 +35,7 @@ namespace Events.Application.Dto
             OrganizationId = _event.OrganizationId;
             IsPast = _event.IsPast;
             ImageName = _event.ImageName;
+            OrganizationName = organizationName;
         }
     }
 }

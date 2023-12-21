@@ -1,4 +1,6 @@
 ﻿using Events.Application;
+using Events.Application.Ports;
+using Events.Infrastructure.Clients;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +19,8 @@ namespace Events.Infrastructure
                 .AddDbContext<ApplicationContext>(builder => builder
                     .UseNpgsql(connectionString)
                     .UseSnakeCaseNamingConvention())
-                .AddScoped<IApplicationContext, ApplicationContext>();
+                .AddScoped<IApplicationContext, ApplicationContext>()
+                .AddScoped<IOrganizationsGrpcClient, OrganizationsGrpcGrpcClient>();
         }
     }
 }

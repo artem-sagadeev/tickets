@@ -16,6 +16,8 @@
         
         public Guid OrganizationId { get; set; }
         
+        public string OrganizationName { get; set; }
+        
         public bool IsPast { get; set; }
         
         public string? ImageName { get; set; }
