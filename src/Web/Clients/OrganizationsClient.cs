@@ -1,4 +1,7 @@
-﻿namespace Web.Clients
+﻿using Newtonsoft.Json;
+using Web.Dto;
+
+namespace Web.Clients
 {
     public class OrganizationsClient
     {
@@ -10,6 +13,15 @@
             _httpClient.BaseAddress = new Uri(configuration["OrganizationsBaseAddress"]!);
         }
 
+        public async Task<OrganizationDto?> GetByIdAsync(Guid id)
+        {
+            var url = $"api/organizations/{id}";
+            var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<OrganizationDto>(content);
+        }
+        
         public async Task<HttpResponseMessage> RegisterAsync(string login, string name, string password, string inn,
             string ogrn)
         {
