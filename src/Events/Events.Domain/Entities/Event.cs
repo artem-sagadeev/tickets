@@ -12,10 +12,6 @@ namespace Events.Domain.Entities
         
         public DateOnly Date { get; private set; }
         
-        public TimeOnly? StartTime { get; private set; }
-        
-        public TimeOnly? EndTime { get; private set; }
-        
         public Guid OrganizationId { get; private set; }
         
         public bool IsDeleted { get; private set; }
@@ -29,8 +25,6 @@ namespace Events.Domain.Entities
             string description,
             DateOnly date,
             Guid organizationId,
-            TimeOnly? startTime,
-            TimeOnly? endTime,
             string? imageName)
         {
             Id = Guid.NewGuid();
@@ -38,8 +32,6 @@ namespace Events.Domain.Entities
             Description = description;
             Date = date;
             OrganizationId = organizationId;
-            StartTime = startTime;
-            EndTime = endTime;
             IsDeleted = false;
             ImageName = imageName;
         }
@@ -47,9 +39,7 @@ namespace Events.Domain.Entities
         public void Update(
             string title,
             string description,
-            DateOnly date,
-            TimeOnly? startTime,
-            TimeOnly? endTime)
+            DateOnly date)
         {
             if (IsPast || IsDeleted)
             {
@@ -59,8 +49,6 @@ namespace Events.Domain.Entities
             Title = title;
             Description = description;
             Date = date;
-            StartTime = startTime;
-            EndTime = endTime;
         }
 
         public void Delete()

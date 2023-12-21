@@ -1,6 +1,7 @@
 ﻿using Common.Application.Exceptions;
 using Events.Application.Dto;
 using Events.Application.Interfaces;
+using Events.Application.Ports;
 using Events.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,17 +10,22 @@ namespace Events.Application.Services
     public class EventService : IEventService
     {
         private readonly IApplicationContext _context;
+        private readonly IOrganizationsGrpcClient _organizationsGrpcClient;
 
-        public EventService(IApplicationContext context)
+        public EventService(
+            IApplicationContext context, 
+            IOrganizationsGrpcClient organizationsGrpcClient)
         {
             _context = context;
+            _organizationsGrpcClient = organizationsGrpcClient;
         }
 
         public async Task<EventDto> GetById(Guid eventId)
         {
             var _event = await GetEventById(eventId);
+            var organizationName = await _organizationsGrpcClient.GetOrganizationName(_event.OrganizationId);
 
-            return new EventDto(_event);
+            return new EventDto(_event, organizationName);
         }
 
         public async Task<IEnumerable<EventDto>> GetByOrganizationId(Guid organizationId)
@@ -27,10 +33,18 @@ namespace Events.Application.Services
             var events = await _context.Events
                 .Where(_event => _event.OrganizationId == organizationId && !_event.IsDeleted &&
                                  DateOnly.FromDateTime(DateTime.UtcNow) < _event.Date)
-                .Select(_event => new EventDto(_event))
                 .ToListAsync();
 
-            return events;
+            var result = new List<EventDto>();
+
+            foreach (var _event in events)
+            {
+                var organizationName = await _organizationsGrpcClient.GetOrganizationName(_event.OrganizationId);
+
+                result.Add(new EventDto(_event, organizationName));
+            }
+
+            return result;
         }
         
         public async Task<IEnumerable<EventDto>> SearchEvents(string? searchString)
@@ -38,10 +52,18 @@ namespace Events.Application.Services
             var events = await _context.Events.Where(_event =>
                 !_event.IsDeleted &&
                 (searchString == null || _event.Title.ToLower().Contains(searchString.ToLower())))
-                .Select(_event => new EventDto(_event))
                 .ToListAsync();
 
-            return events;
+            var result = new List<EventDto>();
+
+            foreach (var _event in events)
+            {
+                var organizationName = await _organizationsGrpcClient.GetOrganizationName(_event.OrganizationId);
+
+                result.Add(new EventDto(_event, organizationName));
+            }
+
+            return result;
         }
 
         public async Task<Guid> Create(
@@ -49,11 +71,9 @@ namespace Events.Application.Services
             string description,
             DateOnly date,
             Guid organizationId,
-            TimeOnly? startTime,
-            TimeOnly? endTime,
             string? imageName)
         {
-            var _event = new Event(title, description, date, organizationId, startTime, endTime, imageName);
+            var _event = new Event(title, description, date, organizationId, imageName);
 
             _context.Events.Add(_event);
             await _context.SaveChangesAsync();
@@ -65,13 +85,11 @@ namespace Events.Application.Services
             Guid eventId,
             string title,
             string description,
-            DateOnly date,
-            TimeOnly? startTime,
-            TimeOnly? endTime)
+            DateOnly date)
         {
             var _event = await GetEventById(eventId);
             
-            _event.Update(title, description, date, startTime, endTime);
+            _event.Update(title, description, date);
 
             await _context.SaveChangesAsync();
         }

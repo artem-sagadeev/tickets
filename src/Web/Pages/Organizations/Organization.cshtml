@@ -1,6 +1,10 @@
 ﻿@page
 @model Web.Pages.Organizations.Organization
 
+@{
+    ViewData["Title"] = "Organizations";
+}
+
 <div class="row mt-4">
     <div class="col-2">
         <img src="/standupclub.jpg" class="rounded float-start" style="width: 200px; height: 200px" alt="">
@@ -51,7 +55,7 @@
                 </div>
                 <div class="fs-6">
                     <p>
-                        <a asp-page="/Organizations/Organization" asp-route-id="@_event.OrganizationId">Spain football association</a>
+                        <a asp-page="/Organizations/Organization" asp-route-id="@_event.OrganizationId">@_event.OrganizationName</a>
                     </p>
                 </div>
             </div>

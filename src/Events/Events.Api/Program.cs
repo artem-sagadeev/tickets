@@ -1,5 +1,6 @@
 using Events.Application;
 using Events.Infrastructure;
+using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

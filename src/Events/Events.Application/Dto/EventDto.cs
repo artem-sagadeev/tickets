@@ -12,27 +12,24 @@ namespace Events.Application.Dto
         
         public DateOnly Date { get; set; }
         
-        public TimeOnly? StartTime { get; set; }
-        
-        public TimeOnly? EndTime { get; set; }
-        
         public Guid OrganizationId { get; set; }
+        
+        public string OrganizationName { get; set; }
         
         public bool IsPast { get; set; }
         
         public string? ImageName { get; set; }
 
-        public EventDto(Event _event)
+        public EventDto(Event _event, string organizationName)
         {
             Id = _event.Id;
             Title = _event.Title;
             Description = _event.Description;
             Date = _event.Date;
-            StartTime = _event.StartTime;
-            EndTime = _event.EndTime;
             OrganizationId = _event.OrganizationId;
             IsPast = _event.IsPast;
             ImageName = _event.ImageName;
+            OrganizationName = organizationName;
         }
     }
 }

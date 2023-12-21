@@ -30,7 +30,7 @@ namespace Events.Api.Controllers
                 model.Description,
                 model.Date,
                 model.OrganizationId,
-                null, null, null);
+                null);
         }
 
         [HttpGet("Search")]
