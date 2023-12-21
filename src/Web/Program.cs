@@ -11,6 +11,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services.AddScoped<EventsClient>();
+builder.Services.AddScoped<OrganizationsClient>();
 
 var app = builder.Build();
 

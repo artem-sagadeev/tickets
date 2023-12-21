@@ -38,5 +38,11 @@ namespace Events.Api.Controllers
         {
             return await _eventService.SearchEvents(search);
         }
+
+        [HttpGet("Future")]
+        public async Task<IEnumerable<EventDto>> GetFutureEvents(Guid organizationId)
+        {
+            return await _eventService.GetByOrganizationId(organizationId);
+        }
     }
 }

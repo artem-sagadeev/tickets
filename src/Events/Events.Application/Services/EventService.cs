@@ -25,7 +25,8 @@ namespace Events.Application.Services
         public async Task<IEnumerable<EventDto>> GetByOrganizationId(Guid organizationId)
         {
             var events = await _context.Events
-                .Where(_event => _event.OrganizationId == organizationId && !_event.IsDeleted)
+                .Where(_event => _event.OrganizationId == organizationId && !_event.IsDeleted &&
+                                 DateOnly.FromDateTime(DateTime.UtcNow) < _event.Date)
                 .Select(_event => new EventDto(_event))
                 .ToListAsync();
 
