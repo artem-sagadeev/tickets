@@ -27,5 +27,15 @@ namespace Web.Clients
 
             return JsonConvert.DeserializeObject<IEnumerable<EventDto>>(content);
         }
+
+        public async Task<EventDto?> GetById(Guid id)
+        {
+            var url = $"api/events/{id}";
+            
+            var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<EventDto>(content);
+        } 
     }
 }
