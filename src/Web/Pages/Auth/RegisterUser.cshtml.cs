@@ -1,12 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Web.Clients;
 
 namespace Web.Pages.Auth;
 
 public class RegisterUserModel : PageModel
 {
-    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly UsersClient _usersClient;
     
     [BindProperty]
     [Required]
@@ -27,9 +28,9 @@ public class RegisterUserModel : PageModel
 
     public string ErrorMessage = string.Empty;
 
-    public RegisterUserModel(IHttpClientFactory httpClientFactory)
+    public RegisterUserModel(UsersClient usersClient)
     {
-        _httpClientFactory = httpClientFactory;
+        _usersClient = usersClient;
     }
 
     public async Task<IActionResult> OnPostAsync()
@@ -37,11 +38,7 @@ public class RegisterUserModel : PageModel
         if (!ModelState.IsValid)
             return Page();
         
-        var client = _httpClientFactory.CreateClient();
-        
-        var requestModel = new { Login, Name, Password };
-        //TODO: requestUri
-        var response = await client.PostAsJsonAsync("http://localhost:5066/api/Users/Register", requestModel);
+        var response = await _usersClient.RegisterAsync(Login, Name, Password);
 
         if (response.IsSuccessStatusCode)
             return RedirectToPage("/Auth/Login");

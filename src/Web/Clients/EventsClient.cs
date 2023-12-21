@@ -8,16 +8,16 @@ namespace Web.Clients
     {
         private readonly HttpClient _httpClient;
 
-        public EventsClient(IConfiguration configuration)
+        public EventsClient(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
-            _httpClient = new HttpClient();
+            _httpClient = httpClientFactory.CreateClient();
             _httpClient.BaseAddress = new Uri(configuration["EventsBaseAddress"]!);
         }
 
         public async Task<IEnumerable<EventDto>?> Search(string? search)
         {
             var sb = new StringBuilder();
-            sb.Append("api/events/search?");
+            sb.Append("search?");
             if (!string.IsNullOrWhiteSpace(search))
             {
                 sb.Append($"search={search}");
@@ -30,9 +30,7 @@ namespace Web.Clients
 
         public async Task<EventDto?> GetById(Guid id)
         {
-            var url = $"api/events/{id}";
-            
-            var response = await _httpClient.GetAsync(url);
+            var response = await _httpClient.GetAsync($"{id}");
             var content = await response.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<EventDto>(content);
