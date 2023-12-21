@@ -6,7 +6,7 @@ namespace Events.Application.Interfaces
     {
         Task<EventDto> GetById(Guid eventId);
 
-        Task<IEnumerable<EventDto>> GetByOrganizationId(Guid organizationId);
+        Task<IEnumerable<EventDto>> GetByOrganizationId(Guid organizationId, bool onlyFuture = true);
         
         Task<IEnumerable<EventDto>> SearchEvents(string? searchString);
 
