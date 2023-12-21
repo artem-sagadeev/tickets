@@ -1,7 +1,16 @@
+using Web.Interfaces;
+using Web.Services;
+using Web.Clients;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddHttpClient();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+
+builder.Services.AddScoped<EventsClient>();
 
 var app = builder.Build();
 
