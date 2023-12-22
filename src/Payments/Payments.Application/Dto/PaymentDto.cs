@@ -1,6 +1,8 @@
-﻿namespace Payments.Domain.Entities;
+﻿using Payments.Domain.Entities;
 
-public record Payment
+namespace Payments.Application.Dto;
+
+public class PaymentDto
 {
     public Guid Id { get; set; }
 

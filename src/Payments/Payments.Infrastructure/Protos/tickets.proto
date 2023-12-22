@@ -1,0 +1,26 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Tickets.Infrastructure";
+
+import "google/protobuf/timestamp.proto";
+
+package tickets;
+
+service Tickets {
+    rpc GetTicketType (GetTicketTypeRequest) returns (GetTicketTypeResponse);
+}
+
+message GetTicketTypeRequest {
+    string id = 1;
+    
+}
+
+message GetTicketTypeResponse {
+    string id = 1;
+    string event_id = 2;
+    string title = 3;
+    string description = 4;
+    int32 max_count = 5;
+    google.protobuf.Timestamp sales_start_date = 6;
+    google.protobuf.Timestamp sales_end_date = 7;
+}
