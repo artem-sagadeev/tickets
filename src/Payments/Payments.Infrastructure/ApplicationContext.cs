@@ -6,7 +6,7 @@ namespace Payments.Infrastructure;
 
 public class ApplicationContext : DbContext, IApplicationContext
 {
-    public DbSet<Payment> Payments { get; }
+    public DbSet<Payment> Payments { get; set; }
 
     public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) {}
 }
