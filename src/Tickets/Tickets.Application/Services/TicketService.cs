@@ -13,17 +13,17 @@ public class TicketService : ITicketService
 
     public TicketService(IApplicationContext context) => _context = context;
 
-    public async ValueTask<Guid?> CreateAsync(Guid eventId, string title, string? description, int maxCount,
+    public async ValueTask<Guid?> CreateAsync(Guid event_id, string title, string? description, int maxCount,
         DateTime salesStartDate, DateTime salesEndDate, CancellationToken cancellationToken = default)
     {
-        if (!await IsUniqueName(eventId, title, cancellationToken))
+        if (!await IsUniqueName(event_id, title, cancellationToken))
             return null;
 
         var ticketTypeId = Guid.NewGuid();
         var ticketType = new TicketType
         {
             Id = Guid.NewGuid(),
-            EventId = eventId,
+            EventId = event_id,
             Title = title,
             Description = description,
             MaxCount = maxCount,
@@ -37,7 +37,7 @@ public class TicketService : ITicketService
         return ticketTypeId;
     }
 
-    public async ValueTask UpdateAsync(Guid eventId, string title, string? description, int maxCount,
+    public async ValueTask UpdateAsync(Guid event_id, string title, string? description, int maxCount,
         DateTime salesStartDate, DateTime salesEndDate, CancellationToken cancellationToken = default)
     {
 
@@ -53,14 +53,14 @@ public class TicketService : ITicketService
         return dto;
     }
 
-    public async ValueTask<IReadOnlyCollection<TicketTypeDto>> GetByEventAsync(Guid eventId,
+    public async ValueTask<IReadOnlyCollection<TicketTypeDto>> GetByEventAsync(Guid event_id,
         CancellationToken cancellationToken = default) => (await _context.TicketTypes
-            .Where(entity => entity.EventId == eventId)
+            .Where(entity => entity.EventId == event_id)
             .ToArrayAsync(cancellationToken: cancellationToken))
         .Select(entity => entity.Adapt<TicketTypeDto>())
         .ToArray();
 
-    private async ValueTask<bool> IsUniqueName(Guid eventId, string title,
+    private async ValueTask<bool> IsUniqueName(Guid event_id, string title,
         CancellationToken cancellationToken = default) => await _context.TicketTypes
-        .AnyAsync(entity => entity.EventId == eventId && entity.Title == title, cancellationToken: cancellationToken);
+        .AnyAsync(entity => entity.EventId == event_id && entity.Title == title, cancellationToken: cancellationToken);
 }

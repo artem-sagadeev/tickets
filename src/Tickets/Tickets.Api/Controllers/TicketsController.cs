@@ -38,7 +38,7 @@ public class TicketsController : ControllerBase
     public async Task<TicketTypeDto> GetTicketType(Guid ticketTypeId) =>
         await _ticketService.GetByIdAsync(ticketTypeId);
 
-    [HttpGet("byEvent/{eventId:guid}")]
-    public async Task<IReadOnlyCollection<TicketTypeDto>> GetEventTicketTypes(Guid eventId) =>
-        await _ticketService.GetByEventAsync(eventId);
+    [HttpGet("byEvent/{event_id:guid}")]
+    public async Task<IReadOnlyCollection<TicketTypeDto>> GetEventTicketTypes(Guid event_id) =>
+        await _ticketService.GetByEventAsync(event_id);
 }
