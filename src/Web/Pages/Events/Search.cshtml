@@ -1,6 +1,10 @@
 ﻿@page
 @model Web.Pages.Events.Search
 
+@{
+    ViewData["Title"] = "Events";
+}
+
 <form method="GET">
     <div class="row">
         <label class="col-form-label col-auto" for="search">Search</label>
@@ -39,7 +43,7 @@
                 </div>
                 <div class="fs-6">
                     <p>
-                        <a asp-page="/Organizations/Organization">Spain football association</a>
+                        <a asp-page="/Organizations/Organization" asp-route-id="@_event.OrganizationId">@_event.OrganizationName</a>
                     </p>
                 </div>
             </div>

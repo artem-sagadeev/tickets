@@ -1,12 +1,15 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Web.Clients;
+using Web.Interfaces;
 
 namespace Web.Pages.Auth;
 
 public class RegisterUserModel : PageModel
 {
-    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly UsersClient _usersClient;
+    private readonly ITokenService _tokenService;
     
     [BindProperty]
     [Required]
@@ -27,21 +30,29 @@ public class RegisterUserModel : PageModel
 
     public string ErrorMessage = string.Empty;
 
-    public RegisterUserModel(IHttpClientFactory httpClientFactory)
+    public RegisterUserModel(UsersClient usersClient, ITokenService tokenService)
     {
-        _httpClientFactory = httpClientFactory;
+        _usersClient = usersClient;
+        _tokenService = tokenService;
     }
 
+    public IActionResult OnGet()
+    {
+        if (_tokenService.IsAuthenticated())
+            return RedirectToPage("/MyAccount/Index");
+
+        return Page();
+    }
+    
     public async Task<IActionResult> OnPostAsync()
     {
+        if (_tokenService.IsAuthenticated())
+            return RedirectToPage("/MyAccount/Index");
+        
         if (!ModelState.IsValid)
             return Page();
         
-        var client = _httpClientFactory.CreateClient();
-        
-        var requestModel = new { Login, Name, Password };
-        //TODO: requestUri
-        var response = await client.PostAsJsonAsync("http://localhost:5066/api/Users/Register", requestModel);
+        var response = await _usersClient.RegisterAsync(Login, Name, Password);
 
         if (response.IsSuccessStatusCode)
             return RedirectToPage("/Auth/Login");

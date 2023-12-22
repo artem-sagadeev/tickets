@@ -8,16 +8,16 @@ namespace Web.Clients
     {
         private readonly HttpClient _httpClient;
 
-        public EventsClient(IConfiguration configuration)
+        public EventsClient(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
-            _httpClient = new HttpClient();
+            _httpClient = httpClientFactory.CreateClient();
             _httpClient.BaseAddress = new Uri(configuration["EventsBaseAddress"]!);
         }
 
-        public async Task<IEnumerable<EventDto>?> Search(string? search)
+        public async Task<IEnumerable<EventDto>?> SearchAsync(string? search)
         {
             var sb = new StringBuilder();
-            sb.Append("api/events/search?");
+            sb.Append("search?");
             if (!string.IsNullOrWhiteSpace(search))
             {
                 sb.Append($"search={search}");
@@ -26,6 +26,47 @@ namespace Web.Clients
             var content = await response.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<IEnumerable<EventDto>>(content);
+        }
+
+        public async Task<EventDto?> GetByIdAsync(Guid id)
+        {
+            var response = await _httpClient.GetAsync($"{id}");
+            var content = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<EventDto>(content);
+        } 
+        
+        public async Task<IEnumerable<EventDto>?> GetFutureEventsAsync(Guid organizationId)
+        {
+            var url = $"future?organizationId={organizationId}";
+            
+            var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<IEnumerable<EventDto>>(content);
+        }
+        
+        public async Task<IEnumerable<EventDto>?> GetByOrganizationIdAsync(Guid organizationId)
+        {
+            var url = $"?organizationId={organizationId}";
+            
+            var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<IEnumerable<EventDto>>(content);
+        }
+
+        public async Task Create(CreateEventDto dto)
+        {
+            var request = new
+            {
+                title = dto.Title,
+                description = dto.Description,
+                organizationId = dto.OrganizationId,
+                date = dto.Date,
+                imageName = dto.File.FileName
+            };
+            await _httpClient.PostAsJsonAsync(string.Empty, request);
         }
     }
 }

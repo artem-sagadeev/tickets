@@ -9,5 +9,7 @@
         public DateOnly Date { get; set; }
         
         public Guid OrganizationId { get; set; }
+        
+        public string? ImageName { get; set; }
     }
 }

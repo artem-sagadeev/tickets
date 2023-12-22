@@ -7,10 +7,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddHttpClient();
+
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IEventService, EventService>();
 
 builder.Services.AddScoped<EventsClient>();
+builder.Services.AddScoped<OrganizationsClient>();
+builder.Services.AddScoped<UsersClient>();
+builder.Services.AddScoped<AuthClient>();
 
 var app = builder.Build();
 

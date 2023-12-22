@@ -12,7 +12,8 @@ public static class ServiceCollectionExtensions
         return services
             .AddScoped<IUserService, UserService>()
             .AddScoped<IOrganizationService, OrganizationService>()
-            .AddScoped<IAuthService, AuthService>();
+            .AddScoped<IAuthService, AuthService>()
+            .AddScoped<OrganizationService>();
     }
 
     public static IServiceCollection AddAutoMapperProfiles(this IServiceCollection services)

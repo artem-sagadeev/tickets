@@ -8,10 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Protobuf Include="Protos\greet.proto" GrpcServices="Server"/>
-    </ItemGroup>
-
-    <ItemGroup>
         <PackageReference Include="Grpc.AspNetCore" Version="2.49.0"/>
     </ItemGroup>
 
@@ -23,6 +19,10 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Organizations.Infrastructure\Organizations.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Protobuf Include="Protos\organizations.proto" GrpcServices="Server" />
     </ItemGroup>
 
 </Project>

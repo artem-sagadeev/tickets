@@ -38,10 +38,6 @@ namespace Events.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("description");
 
-                    b.Property<TimeOnly?>("EndTime")
-                        .HasColumnType("time without time zone")
-                        .HasColumnName("end_time");
-
                     b.Property<string>("ImageName")
                         .HasColumnType("text")
                         .HasColumnName("image_name");
@@ -53,10 +49,6 @@ namespace Events.Infrastructure.Migrations
                     b.Property<Guid>("OrganizationId")
                         .HasColumnType("uuid")
                         .HasColumnName("organization_id");
-
-                    b.Property<TimeOnly?>("StartTime")
-                        .HasColumnType("time without time zone")
-                        .HasColumnName("start_time");
 
                     b.Property<string>("Title")
                         .IsRequired()
