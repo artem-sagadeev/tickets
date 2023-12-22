@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Payments.Application.Dto;
 using Payments.Application.Interfaces;
 using Payments.Application.Ports;
+using Payments.Domain.Entities;
 
 namespace Payments.Application.Services;
 
@@ -20,7 +21,7 @@ public class PaymentService : IPaymentService
 
     public async ValueTask<PaymentDto> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var entity = await _context.Payments.SingleOrDefaultAsync(item => item.Id == id, 
+        var entity = await _context.Payments.SingleOrDefaultAsync(item => item.Id == id,
                          cancellationToken: cancellationToken) ??
                      throw new EntityNotFoundException("Платёж не найден.");
         var dto = entity.Adapt<PaymentDto>();
@@ -42,13 +43,30 @@ public class PaymentService : IPaymentService
         .Select(entity => entity.Adapt<PaymentDto>())
         .ToArray();
 
-    public async ValueTask BuyAsync(Guid ticketTypeId, Guid userId, int count,
-        CancellationToken cancellationToken = default)
+    public async ValueTask<bool> BuyAsync(Guid ticketTypeId, Guid userId, CancellationToken cancellationToken = default)
     {
         var ticketType = await _ticketGrpcClient.GetTicketTypeAsync(ticketTypeId, cancellationToken: cancellationToken);
-        var payments = await GetByTicketTypeAsync(ticketTypeId, cancellationToken: cancellationToken);
-        
-        
 
+        if (DateTime.UtcNow >= ticketType.SalesStartDate && DateTime.UtcNow <= ticketType.SalesEndDate)
+            return false;
+
+        var isSuccessfullyBooked = await _ticketGrpcClient.BookAsync(ticketTypeId, cancellationToken);
+
+        if (isSuccessfullyBooked)
+        {
+            var payment = new Payment
+            {
+                Id = Guid.NewGuid(),
+                TicketTypeId = ticketTypeId,
+                UserId = userId,
+                PurchaseStatus = PurchaseStatus.Buyed,
+                ChangeDate = DateTime.UtcNow
+            };
+
+            await _context.Payments.AddAsync(payment, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        return isSuccessfullyBooked;
     }
 }

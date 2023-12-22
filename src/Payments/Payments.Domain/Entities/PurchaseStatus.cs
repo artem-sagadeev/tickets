@@ -2,7 +2,6 @@
 
 public enum PurchaseStatus
 {
-    New = 10,
-    Buyed = 20,
-    Canceled = 30
+    Buyed = 10,
+    Canceled = 20
 }

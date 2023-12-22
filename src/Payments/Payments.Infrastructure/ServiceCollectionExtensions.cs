@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Payments.Application;
+using Payments.Application.Ports;
+using Payments.Infrastructure.Clients;
 
 namespace Payments.Infrastructure;
 
@@ -17,6 +19,7 @@ public static class ServiceCollectionExtensions
             .AddDbContext<ApplicationContext>(builder => builder
                 .UseNpgsql(connectionString)
                 .UseSnakeCaseNamingConvention())
-            .AddScoped<IApplicationContext, ApplicationContext>();
+            .AddScoped<IApplicationContext, ApplicationContext>()
+            .AddScoped<ITicketGrpcClient, TicketGrpcClient>();
     }
 }

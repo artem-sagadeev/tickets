@@ -12,5 +12,5 @@ public interface IPaymentService
     ValueTask<IReadOnlyCollection<PaymentDto>> GetByUserAsync(Guid userId,
         CancellationToken cancellationToken = default);
 
-    ValueTask BuyAsync(Guid ticketTypeId, Guid userId, int count, CancellationToken cancellationToken = default);
+    ValueTask<bool> BuyAsync(Guid ticketTypeId, Guid userId, CancellationToken cancellationToken = default);
 }

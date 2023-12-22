@@ -12,7 +12,5 @@ public class PaymentDto
 
     public PurchaseStatus PurchaseStatus { get; set; }
 
-    public int Count { get; set; }
-    
     public DateTime ChangeDate { get; set; }
 }
