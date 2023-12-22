@@ -13,19 +13,20 @@ public class TicketService : ITicketService
 
     public TicketService(IApplicationContext context) => _context = context;
 
-    public async ValueTask<Guid?> CreateAsync(Guid event_id, string title, string? description, int maxCount,
+    public async ValueTask<Guid?> CreateAsync(Guid eventId, string title, string? description, int maxCount,
         DateTime salesStartDate, DateTime salesEndDate, CancellationToken cancellationToken = default)
     {
-        if (!await IsUniqueName(event_id, title, cancellationToken))
+        if (!await IsUniqueName(eventId, title, cancellationToken))
             return null;
 
         var ticketTypeId = Guid.NewGuid();
         var ticketType = new TicketType
         {
             Id = Guid.NewGuid(),
-            EventId = event_id,
+            EventId = eventId,
             Title = title,
             Description = description,
+            CurrentCount = 0,
             MaxCount = maxCount,
             SalesStartDate = salesStartDate,
             SalesEndDate = salesEndDate
@@ -37,10 +38,18 @@ public class TicketService : ITicketService
         return ticketTypeId;
     }
 
-    public async ValueTask UpdateAsync(Guid event_id, string title, string? description, int maxCount,
-        DateTime salesStartDate, DateTime salesEndDate, CancellationToken cancellationToken = default)
+    public async ValueTask<bool> BookAsync(Guid id, CancellationToken cancellationToken = default)
     {
+        var ticketType = await _context.TicketTypes.SingleOrDefaultAsync(item => item.Id == id,
+            cancellationToken: cancellationToken);
 
+        if (ticketType is null || ticketType.CurrentCount >= ticketType.MaxCount)
+            return false;
+
+        ticketType.CurrentCount++;
+        await _context.SaveChangesAsync(cancellationToken);
+
+        return true;
     }
 
     public async ValueTask<TicketTypeDto> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
@@ -53,14 +62,14 @@ public class TicketService : ITicketService
         return dto;
     }
 
-    public async ValueTask<IReadOnlyCollection<TicketTypeDto>> GetByEventAsync(Guid event_id,
+    public async ValueTask<IReadOnlyCollection<TicketTypeDto>> GetByEventAsync(Guid eventId,
         CancellationToken cancellationToken = default) => (await _context.TicketTypes
-            .Where(entity => entity.EventId == event_id)
+            .Where(entity => entity.EventId == eventId)
             .ToArrayAsync(cancellationToken: cancellationToken))
         .Select(entity => entity.Adapt<TicketTypeDto>())
         .ToArray();
 
-    private async ValueTask<bool> IsUniqueName(Guid event_id, string title,
+    private async ValueTask<bool> IsUniqueName(Guid eventId, string title,
         CancellationToken cancellationToken = default) => await _context.TicketTypes
-        .AnyAsync(entity => entity.EventId == event_id && entity.Title == title, cancellationToken: cancellationToken);
+        .AnyAsync(entity => entity.EventId == eventId && entity.Title == title, cancellationToken: cancellationToken);
 }

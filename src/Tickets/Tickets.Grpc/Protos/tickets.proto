@@ -8,11 +8,11 @@ package tickets;
 
 service Tickets {
     rpc GetTicketType (GetTicketTypeRequest) returns (GetTicketTypeResponse);
+    rpc Book (BookRequest) returns (BookResponse);
 }
 
 message GetTicketTypeRequest {
     string id = 1;
-    
 }
 
 message GetTicketTypeResponse {
@@ -23,4 +23,12 @@ message GetTicketTypeResponse {
     int32 max_count = 5;
     google.protobuf.Timestamp sales_start_date = 6;
     google.protobuf.Timestamp sales_end_date = 7;
+}
+
+message BookRequest {
+    string id = 1;
+}
+
+message BookResponse {
+    bool success = 1;
 }

@@ -29,4 +29,14 @@ public class TicketGrpcService : Tickets.TicketsBase
 
         return response;
     }
+
+    public override async Task<BookResponse> Book(BookRequest request, ServerCallContext context)
+    {
+        var ticketTypeId = Guid.Parse(request.Id);
+
+        var success = await _ticketService.BookAsync(ticketTypeId);
+        var response = new BookResponse { Success = success };
+
+        return response;
+    }
 }

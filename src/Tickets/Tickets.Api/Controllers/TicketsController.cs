@@ -25,20 +25,14 @@ public class TicketsController : ControllerBase
         return Ok(id);
     }
 
-    [HttpPost("update")]
-    public async Task<IActionResult> Update(UpdateTicketTypeModel model)
-    {
-        await _ticketService.UpdateAsync(model.Id, model.Title, model.Description, model.MaxCount,
-            model.SalesStartDate, model.SalesEndDate);
-
-        return Ok();
-    }
+    [HttpPost("book/{id:guid}")]
+    public async Task<bool> Book(Guid id) => await _ticketService.BookAsync(id);
 
     [HttpGet("{ticketTypeId:guid}")]
     public async Task<TicketTypeDto> GetTicketType(Guid ticketTypeId) =>
         await _ticketService.GetByIdAsync(ticketTypeId);
 
-    [HttpGet("byEvent/{event_id:guid}")]
-    public async Task<IReadOnlyCollection<TicketTypeDto>> GetEventTicketTypes(Guid event_id) =>
-        await _ticketService.GetByEventAsync(event_id);
+    [HttpGet("byEvent/{eventId:guid}")]
+    public async Task<IReadOnlyCollection<TicketTypeDto>> GetEventTicketTypes(Guid eventId) =>
+        await _ticketService.GetByEventAsync(eventId);
 }

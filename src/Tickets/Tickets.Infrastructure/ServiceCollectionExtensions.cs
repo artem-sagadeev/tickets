@@ -8,11 +8,11 @@ namespace Tickets.Infrastructure;
 public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddInfrastructure(
-        this IServiceCollection services, 
+        this IServiceCollection services,
         IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("Database");
-            
+
         return services
             .AddDbContext<ApplicationContext>(builder => builder
                 .UseNpgsql(connectionString)

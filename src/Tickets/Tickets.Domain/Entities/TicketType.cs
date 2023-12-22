@@ -2,17 +2,19 @@
 
 public record TicketType
 {
-    public required Guid Id { get; init; }
+    public required Guid Id { get; set; }
 
-    public required Guid EventId { get; init; }
+    public required Guid EventId { get; set; }
 
-    public required string Title { get; init; }
+    public required string Title { get; set; }
 
-    public string? Description { get; init; }
+    public string? Description { get; set; }
 
-    public int MaxCount { get; init; }
+    public int CurrentCount { get; set; }
 
-    public DateTime SalesStartDate { get; init; }
+    public int MaxCount { get; set; }
 
-    public DateTime SalesEndDate { get; init; }
+    public DateTime SalesStartDate { get; set; }
+
+    public DateTime SalesEndDate { get; set; }
 }
