@@ -17,6 +17,8 @@ builder.Services.AddScoped<EventsClient>();
 builder.Services.AddScoped<OrganizationsClient>();
 builder.Services.AddScoped<UsersClient>();
 builder.Services.AddScoped<AuthClient>();
+builder.Services.AddScoped<TicketsClient>();
+builder.Services.AddScoped<PaymentsClient>();
 
 var app = builder.Build();
 
@@ -28,7 +30,6 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
