@@ -4,7 +4,14 @@ namespace Tickets.Application.Interfaces;
 
 public interface ITicketService
 {
-    ValueTask<TicketTypeDto> GetTicketTypeAsync(Guid id, CancellationToken cancellationToken = default);
+    ValueTask<Guid?> CreateAsync(Guid eventId, string title, string? description, int maxCount, DateTime salesStartDate,
+        DateTime salesEndDate, CancellationToken cancellationToken = default);
 
-    ValueTask<TicketDto> GetTicketAsync(Guid id, CancellationToken cancellationToken = default);
+    ValueTask UpdateAsync(Guid id, string title, string? description, int maxCount, DateTime salesStartDate,
+        DateTime salesEndDate, CancellationToken cancellationToken = default);
+
+    ValueTask<TicketTypeDto> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+
+    ValueTask<IReadOnlyCollection<TicketTypeDto>> GetByEventAsync(Guid eventId,
+        CancellationToken cancellationToken = default);
 }

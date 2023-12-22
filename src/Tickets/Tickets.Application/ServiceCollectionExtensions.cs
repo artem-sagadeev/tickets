@@ -6,9 +6,6 @@ namespace Tickets.Application;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services)
-    {
-        return services
-            .AddScoped<ITicketService, TicketService>();
-    }
+    public static IServiceCollection AddApplication(this IServiceCollection services) => services
+        .AddScoped<ITicketService, TicketService>();
 }

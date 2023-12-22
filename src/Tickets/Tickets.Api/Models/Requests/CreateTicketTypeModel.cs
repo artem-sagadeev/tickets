@@ -1,15 +1,17 @@
-﻿namespace Tickets.Domain.Entities;
+﻿using System.ComponentModel.DataAnnotations;
 
-public record TicketType
+namespace Tickets.Api.Models.Requests;
+
+public record CreateTicketTypeModel
 {
-    public required Guid Id { get; init; }
+    public Guid EventId { get; init; }
 
-    public required Guid EventId { get; init; }
-
+    [Required]
     public required string Title { get; init; }
 
     public string? Description { get; init; }
 
+    [Range(1, int.MaxValue)]
     public int MaxCount { get; init; }
 
     public DateTime SalesStartDate { get; init; }

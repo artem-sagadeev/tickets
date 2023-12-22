@@ -8,7 +8,5 @@ public class ApplicationContext : DbContext, IApplicationContext
 {
     public DbSet<TicketType> TicketTypes { get; set;  }
 
-    public DbSet<Ticket> Tickets { get; set; }
-
     public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) {}
 }
