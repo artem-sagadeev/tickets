@@ -71,5 +71,5 @@ public class TicketService : ITicketService
 
     private async ValueTask<bool> IsUniqueName(Guid eventId, string title,
         CancellationToken cancellationToken = default) => await _context.TicketTypes
-        .AnyAsync(entity => entity.EventId == eventId && entity.Title == title, cancellationToken: cancellationToken);
+        .AllAsync(entity => entity.EventId == eventId && entity.Title != title, cancellationToken: cancellationToken);
 }
