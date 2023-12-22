@@ -11,7 +11,7 @@ public class TicketGrpcClient : ITicketGrpcClient
 
     public TicketGrpcClient(IConfiguration configuration)
     {
-        var channel = GrpcChannel.ForAddress(configuration["OrganizationsGrpc"]!);
+        var channel = GrpcChannel.ForAddress(configuration["TicketsGrpc"]!);
         _ticketsClient = new Tickets.TicketsClient(channel);
     }
 
