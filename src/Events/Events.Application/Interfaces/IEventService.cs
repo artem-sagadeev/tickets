@@ -15,5 +15,7 @@ namespace Events.Application.Interfaces
         Task Update(Guid eventId, string title, string description, DateOnly date);
 
         Task Delete(Guid eventId);
+
+        Task<IEnumerable<EventDto>> GetByIds(IEnumerable<Guid> ids);
     }
 }

@@ -103,6 +103,24 @@ namespace Events.Application.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<EventDto>> GetByIds(IEnumerable<Guid> ids)
+        {
+            var events = await _context.Events
+                .Where(_event => ids.Contains(_event.Id))
+                .ToListAsync();
+
+            var result = new List<EventDto>();
+
+            foreach (var _event in events)
+            {
+                var organizationName = await _organizationsGrpcClient.GetOrganizationName(_event.OrganizationId);
+
+                result.Add(new EventDto(_event, organizationName));
+            }
+
+            return result;
+        }
+
         private async Task<Event> GetEventById(Guid eventId)
         {
             return await _context.Events

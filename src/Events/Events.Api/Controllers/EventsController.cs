@@ -50,5 +50,11 @@ namespace Events.Api.Controllers
         {
             return await _eventService.GetByOrganizationId(organizationId);
         }
+
+        [HttpGet("GetByIds")]
+        public async Task<IEnumerable<EventDto>> GetByIds(IEnumerable<Guid> ids)
+        {
+            return await _eventService.GetByIds(ids);
+        }
     }
 }
