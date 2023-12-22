@@ -16,8 +16,8 @@ public class TicketsController : ControllerBase
     [HttpPost("create")]
     public async Task<IActionResult> Create(CreateTicketTypeModel model)
     {
-        var id = await _ticketService.CreateAsync(model.EventId, model.Title, model.Description, model.MaxCount,
-            model.SalesStartDate, model.SalesEndDate);
+        var id = await _ticketService.CreateAsync(model.EventId, model.Title, model.Description, model.Price,
+            model.MaxCount, model.SalesStartDate, model.SalesEndDate);
 
         if (id is null)
             return BadRequest();

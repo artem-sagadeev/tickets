@@ -10,6 +10,8 @@ public record TicketType
 
     public string? Description { get; set; }
 
+    public decimal Price { get; init; }
+
     public int CurrentCount { get; set; }
 
     public int MaxCount { get; set; }

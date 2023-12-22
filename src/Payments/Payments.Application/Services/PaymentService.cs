@@ -59,6 +59,7 @@ public class PaymentService : IPaymentService
                 Id = Guid.NewGuid(),
                 TicketTypeId = ticketTypeId,
                 UserId = userId,
+                Price = ticketType.Price,
                 PurchaseStatus = PurchaseStatus.Buyed,
                 ChangeDate = DateTime.UtcNow
             };

@@ -13,8 +13,8 @@ public class TicketService : ITicketService
 
     public TicketService(IApplicationContext context) => _context = context;
 
-    public async ValueTask<Guid?> CreateAsync(Guid eventId, string title, string? description, int maxCount,
-        DateTime salesStartDate, DateTime salesEndDate, CancellationToken cancellationToken = default)
+    public async ValueTask<Guid?> CreateAsync(Guid eventId, string title, string? description, decimal price,
+        int maxCount, DateTime salesStartDate, DateTime salesEndDate, CancellationToken cancellationToken = default)
     {
         if (!await IsUniqueName(eventId, title, cancellationToken))
             return null;
@@ -26,6 +26,7 @@ public class TicketService : ITicketService
             EventId = eventId,
             Title = title,
             Description = description,
+            Price = price,
             CurrentCount = 0,
             MaxCount = maxCount,
             SalesStartDate = salesStartDate,

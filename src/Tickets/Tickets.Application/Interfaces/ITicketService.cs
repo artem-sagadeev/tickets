@@ -4,8 +4,8 @@ namespace Tickets.Application.Interfaces;
 
 public interface ITicketService
 {
-    ValueTask<Guid?> CreateAsync(Guid eventId, string title, string? description, int maxCount, DateTime salesStartDate,
-        DateTime salesEndDate, CancellationToken cancellationToken = default);
+    ValueTask<Guid?> CreateAsync(Guid eventId, string title, string? description, decimal price, int maxCount,
+        DateTime salesStartDate, DateTime salesEndDate, CancellationToken cancellationToken = default);
 
     ValueTask<bool> BookAsync(Guid id, CancellationToken cancellationToken = default);
 

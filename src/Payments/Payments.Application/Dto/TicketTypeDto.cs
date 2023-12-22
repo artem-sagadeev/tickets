@@ -10,6 +10,8 @@ public record TicketTypeDto
 
     public string? Description { get; set; }
 
+    public decimal Price { get; init; }
+
     public int MaxCount { get; set; }
 
     public DateTime SalesStartDate { get; set; }

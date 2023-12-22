@@ -11,6 +11,9 @@ public record CreateTicketTypeModel
 
     public string? Description { get; init; }
 
+    [Range(0.01, int.MaxValue)]
+    public decimal Price { get; init; }
+
     [Range(1, int.MaxValue)]
     public int MaxCount { get; init; }
 

@@ -8,6 +8,8 @@ public record Payment
 
     public Guid UserId { get; set; }
 
+    public decimal Price { get; init; }
+
     public PurchaseStatus PurchaseStatus { get; set; }
 
     public DateTime ChangeDate { get; set; }
