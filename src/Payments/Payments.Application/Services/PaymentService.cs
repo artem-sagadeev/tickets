@@ -47,7 +47,7 @@ public class PaymentService : IPaymentService
     {
         var ticketType = await _ticketGrpcClient.GetTicketTypeAsync(ticketTypeId, cancellationToken: cancellationToken);
 
-        if (DateTime.UtcNow >= ticketType.SalesStartDate && DateTime.UtcNow <= ticketType.SalesEndDate)
+        if (!(DateTime.UtcNow >= ticketType.SalesStartDate && DateTime.UtcNow <= ticketType.SalesEndDate))
             return false;
 
         var isSuccessfullyBooked = await _ticketGrpcClient.BookAsync(ticketTypeId, cancellationToken);
