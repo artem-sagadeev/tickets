@@ -19,7 +19,7 @@ public class IndexModel : PageModel
             return RedirectToPage("/Auth/Login");
         
         if (_tokenService.IsOrganization())
-            return RedirectToPage("/MyAccount/User/Organization");
+            return RedirectToPage("/MyAccount/Organization/Index");
 
         return Page();
     }

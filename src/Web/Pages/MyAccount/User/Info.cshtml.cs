@@ -26,7 +26,7 @@ public class InfoModel : PageModel
             return RedirectToPage("/Auth/Login");
 
         if (_tokenService.IsOrganization())
-            return RedirectToPage("/MyAccount/User/Organization");
+            return RedirectToPage("/MyAccount/Organization/Index");
         
         var userId = _tokenService.GetUserId();
         var user = await _usersClient.GetByIdAsync(new Guid(userId!));
