@@ -2,12 +2,14 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Web.Clients;
+using Web.Interfaces;
 
 namespace Web.Pages.Auth;
 
 public class RegisterOrganizationModel : PageModel
 {
     private readonly OrganizationsClient _organizationsClient;
+    private readonly ITokenService _tokenService;
     
     [BindProperty]
     [Required]
@@ -38,13 +40,25 @@ public class RegisterOrganizationModel : PageModel
 
     public string ErrorMessage = string.Empty;
 
-    public RegisterOrganizationModel(OrganizationsClient organizationsClient)
+    public RegisterOrganizationModel(OrganizationsClient organizationsClient, ITokenService tokenService)
     {
         _organizationsClient = organizationsClient;
+        _tokenService = tokenService;
     }
 
+    public IActionResult OnGet()
+    {
+        if (_tokenService.IsAuthenticated())
+            return RedirectToPage("/MyAccount/Index");
+
+        return Page();
+    }
+    
     public async Task<IActionResult> OnPostAsync()
     {
+        if (_tokenService.IsAuthenticated())
+            return RedirectToPage("/MyAccount/Index");
+        
         if (!ModelState.IsValid)
             return Page();
         

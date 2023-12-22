@@ -1,12 +1,10 @@
 @page
-@using Web.Interfaces
 @model EventsModel
-@inject ITokenService TokenService
 @{
     ViewData["Title"] = "My events";
 }
 
-<h1 class="mb-3">My events</h1>
+<h1 class="mb-3">@ViewData["Title"]</h1>
 
 <div class="mb-3">
     @* TODO: add event link *@

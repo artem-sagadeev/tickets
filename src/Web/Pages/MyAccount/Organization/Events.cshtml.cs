@@ -17,12 +17,16 @@ public class EventsModel : PageModel
         _eventsClient = eventsClient;
     }
 
-    [BindProperty] public IEnumerable<EventDto> Events { get; set; } = Array.Empty<EventDto>();
+    [BindProperty] 
+    public IEnumerable<EventDto> Events { get; set; } = Array.Empty<EventDto>();
     
     public async Task<IActionResult> OnGet()
     {
-        if (!_tokenService.IsOrganization())
+        if (!_tokenService.IsAuthenticated())
             return RedirectToPage("/Auth/Login");
+
+        if (_tokenService.IsUser())
+            return RedirectToPage("/MyAccount/User/Index");
         
         var organizationId = _tokenService.GetUserId();
         var events = await _eventsClient.GetByOrganizationIdAsync(new Guid(organizationId!));

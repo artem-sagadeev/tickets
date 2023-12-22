@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Web.Interfaces;
 
-namespace Web.Pages.MyAccount.User;
+namespace Web.Pages.MyAccount;
 
 public class IndexModel : PageModel
 {
@@ -15,12 +15,8 @@ public class IndexModel : PageModel
 
     public IActionResult OnGet()
     {
-        if (!_tokenService.IsAuthenticated())
-            return RedirectToPage("/Auth/Login");
-        
-        if (_tokenService.IsOrganization())
-            return RedirectToPage("/MyAccount/User/Organization");
-
-        return Page();
+        return _tokenService.IsAuthenticated()
+            ? RedirectToPage(_tokenService.IsUser() ? "/MyAccount/User/Index" : "/MyAccount/Organization/Index")
+            : RedirectToPage("/Auth/Login");
     }
 }
