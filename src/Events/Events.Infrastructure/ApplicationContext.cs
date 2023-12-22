@@ -7,7 +7,7 @@ namespace Events.Infrastructure
     public class ApplicationContext : DbContext, IApplicationContext
     {
         public DbSet<Event> Events { get; set; }
-        
+
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) {}
     }
 }
