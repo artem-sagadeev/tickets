@@ -33,6 +33,11 @@ public class TokenService : ITokenService
             ? token
             : null;
     }
+    
+    public void RemoveToken()
+    {
+        _httpContextAccessor.HttpContext?.Response.Cookies.Delete(TokenKey);
+    }
 
     public bool IsAuthenticated()
     {

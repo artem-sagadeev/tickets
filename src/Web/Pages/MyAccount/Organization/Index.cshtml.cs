@@ -15,8 +15,11 @@ public class IndexModel : PageModel
 
     public IActionResult OnGet()
     {
-        if (!_tokenService.IsOrganization())
+        if (!_tokenService.IsAuthenticated())
             return RedirectToPage("/Auth/Login");
+
+        if (_tokenService.IsUser())
+            return RedirectToPage("/MyAccount/User/Index");
 
         return Page();
     }

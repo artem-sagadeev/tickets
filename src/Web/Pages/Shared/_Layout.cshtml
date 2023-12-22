@@ -31,15 +31,7 @@
                         var userName = TokenService.GetUserName();
                         
                         <li class="nav-item ms-auto">
-                            @if (TokenService.IsOrganization())
-                            {
-                                <a class="nav-link text-dark" asp-area="" asp-page="/MyAccount/Organization/Index">@userName</a>
-                            }
-                            
-                            @if (TokenService.IsUser())
-                            {
-                                <a class="nav-link text-dark" asp-area="" asp-page="/MyAccount/User/Index">@userName</a>
-                            }
+                            <a class="nav-link text-dark" asp-area="" asp-page="/MyAccount/Index">@userName</a>
                         </li>
                     }
                     else

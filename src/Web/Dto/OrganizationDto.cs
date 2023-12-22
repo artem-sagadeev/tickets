@@ -1,13 +1,11 @@
 ﻿namespace Web.Dto
 {
-    public class OrganizationDto
+    public class OrganizationDto : UserDto
     {
-        public Guid Id { get; set; }
-    
-        public string Login { get; set; }
-    
-        public string Name { get; set; }
-        
         public string Description { get; set; }
+        
+        public string Inn { get; set; }
+    
+        public string Ogrn { get; set; }
     }
 }

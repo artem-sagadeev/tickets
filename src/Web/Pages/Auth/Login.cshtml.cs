@@ -29,8 +29,19 @@ public class LoginModel : PageModel
 
     public string ErrorMessage = string.Empty;
 
+    public IActionResult OnGet()
+    {
+        if (_tokenService.IsAuthenticated())
+            return RedirectToPage("/MyAccount/Index");
+
+        return Page();
+    }
+    
     public async Task<IActionResult> OnPostAsync()
     {
+        if (_tokenService.IsAuthenticated())
+            return RedirectToPage("/MyAccount/Index");
+        
         if (!ModelState.IsValid)
             return Page();
         
