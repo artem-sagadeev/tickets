@@ -26,7 +26,10 @@
 
                 <div class="fs-6 mb-3">
                     <p class="text-break fw-bold mb-0">@myPayment.TicketType.Title</p>
-                    <p class="text-break mb-0">@myPayment.TicketType.Description</p>
+                    @if (!string.IsNullOrWhiteSpace(myPayment.TicketType.Description))
+                    {
+                        <p class="text-break mb-0">@myPayment.TicketType.Description</p>
+                    }
                 </div>
 
                 <div class="fs-6">
