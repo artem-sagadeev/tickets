@@ -37,16 +37,20 @@
     <div class="row mt-4">
         <label class="col-form-label col-auto" for="type">Type</label>
         <div class="col-3">
-            <select class="form-select" aria-label="Choose type" name="type" id="type">
-                <option value="One">Cheap - 2$</option>
-                <option value="Two">Normal - 3$</option>
-                <option value="Three">Expensive - 10$</option>
+            <select class="form-select" aria-label="Choose type" name="typeId" id="type">
+                @if (Model.TicketTypes.Any(type => type.SalesStartDate <= DateTime.UtcNow && type.SalesEndDate > DateTime.UtcNow))
+                {
+                    @foreach (var type in Model.TicketTypes.Where(type => type.SalesStartDate <= DateTime.UtcNow && type.SalesEndDate > DateTime.UtcNow))
+                    {
+                        <option value="@type.Id">@type.Title - $@type.Price</option>
+                    }
+                }
             </select>
         </div>
-        <label class="col-form-label col-auto" for="count">Count</label>
+        @*<label class="col-form-label col-auto" for="count">Count</label>
         <div class="col-1">
             <input type="number" class="form-control" id="count"/>
-        </div>
+        </div>*@
         <div class="col-auto">
             <button type="submit" class="btn btn-primary">Buy</button>
         </div>
