@@ -18,6 +18,8 @@ services:
     build:
       context: ./src
       dockerfile: ./Events/Events.Api/Dockerfile
+    ports:
+     - "5002:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
 
@@ -36,6 +38,8 @@ services:
     build:
       context: ./src
       dockerfile: ./Organizations/Organizations.Api/Dockerfile
+    ports:
+     - "5003:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
 
@@ -54,6 +58,8 @@ services:
     build:
       context: ./src
       dockerfile: ./Payments/Payments.Api/Dockerfile
+    ports:
+     - "5004:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
 
@@ -72,6 +78,8 @@ services:
     build:
       context: ./src
       dockerfile: ./Tickets/Tickets.Api/Dockerfile
+    ports:
+     - "5005:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
 
