@@ -22,7 +22,7 @@ public class TicketService : ITicketService
         var ticketTypeId = Guid.NewGuid();
         var ticketType = new TicketType
         {
-            Id = Guid.NewGuid(),
+            Id = ticketTypeId,
             EventId = eventId,
             Title = title,
             Description = description,
@@ -71,6 +71,7 @@ public class TicketService : ITicketService
         .ToArray();
 
     private async ValueTask<bool> IsUniqueName(Guid eventId, string title,
-        CancellationToken cancellationToken = default) => await _context.TicketTypes
-        .AllAsync(entity => entity.EventId == eventId && entity.Title != title, cancellationToken: cancellationToken);
+        CancellationToken cancellationToken = default) => !await _context.TicketTypes
+        .Where(entity => entity.EventId == eventId)
+        .AnyAsync(entity => entity.Title == title, cancellationToken: cancellationToken);
 }
