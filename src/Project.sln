@@ -54,6 +54,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{4EDFD3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Application", "Common\Common.Application\Common.Application.csproj", "{B74B6414-45C7-4343-9E2E-CD3959E9C401}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dos", "Dos\Dos.csproj", "{3A4D80A0-3534-445D-8058-BB45A7C76657}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -171,5 +173,9 @@ Global
 		{B74B6414-45C7-4343-9E2E-CD3959E9C401}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B74B6414-45C7-4343-9E2E-CD3959E9C401}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B74B6414-45C7-4343-9E2E-CD3959E9C401}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A4D80A0-3534-445D-8058-BB45A7C76657}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A4D80A0-3534-445D-8058-BB45A7C76657}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A4D80A0-3534-445D-8058-BB45A7C76657}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A4D80A0-3534-445D-8058-BB45A7C76657}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
