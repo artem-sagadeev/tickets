@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Web.Clients;
 using Web.Dto;
 using Web.Interfaces;
 
@@ -8,16 +9,24 @@ namespace Web.Pages.MyAccount.User;
 public class TicketsModel : PageModel
 {
     private readonly ITokenService _tokenService;
+    private readonly PaymentsClient _paymentsClient;
+    private readonly EventsClient _eventsClient;
+    private readonly TicketsClient _ticketsClient;
+    private readonly OrganizationsClient _organizationsClient;
 
-    public TicketsModel(ITokenService tokenService)
+    public TicketsModel(ITokenService tokenService, PaymentsClient paymentsClient, EventsClient eventsClient, TicketsClient ticketsClient, OrganizationsClient organizationsClient)
     {
         _tokenService = tokenService;
+        _paymentsClient = paymentsClient;
+        _eventsClient = eventsClient;
+        _ticketsClient = ticketsClient;
+        _organizationsClient = organizationsClient;
     }
 
     [BindProperty] 
-    public IEnumerable<MyPaymentDto> MyPayments { get; set; } = Array.Empty<MyPaymentDto>();
+    public List<MyPaymentDto> MyPayments { get; set; } = new List<MyPaymentDto>();
 
-    public IActionResult OnGet()
+    public async Task<IActionResult> OnGet()
     {
         if (!_tokenService.IsAuthenticated())
             return RedirectToPage("/Auth/Login");
@@ -25,66 +34,24 @@ public class TicketsModel : PageModel
         if (_tokenService.IsOrganization())
             return RedirectToPage("/MyAccount/Organization/Index");
         
-        //TODO: получение моих купленных билетов
+        var payments = await _paymentsClient.GetByUserId(Guid.Parse(_tokenService.GetUserId()!));
 
-        var test = new MyPaymentDto[]
+        foreach (var payment in payments)
         {
-            new MyPaymentDto
+            var ticketType = await _ticketsClient.GetTicketType(payment.TicketTypeId);
+            var _event = await _eventsClient.GetByIdAsync(ticketType!.EventId);
+            var organization = await _organizationsClient.GetByIdAsync(_event!.OrganizationId);
+            
+            MyPayments.Add(new MyPaymentDto
             {
-                Payment = new PaymentDto
-                {
-                    Price = 300,
-                    ChangeDate = DateTime.Now
-                },
-                TicketType = new TicketTypeDto
-                {
-                    Title = "Dance floor",
-                    Description = "Without seats."
-                },
-                Event = new EventDto
-                {
-                    Title = "Slava Marlow Concert",
-                    Description = "The long-awaited Slava Marlow Concert big concert!",
-                    Date = DateOnly.FromDateTime(DateTime.Now),
-                    StartTime = TimeOnly.FromDateTime(DateTime.Now - TimeSpan.FromHours(1)),
-                    EndTime = TimeOnly.FromDateTime(DateTime.Now + TimeSpan.FromHours(1)),
-                    ImageName = "slava.jpg"
-                },
-                Organization = new OrganizationDto
-                {
-                    Name = "Crocus City Hall"
-                }
-            },
+                Payment = payment,
+                Event = _event,
+                Organization = organization!,
+                TicketType = ticketType
+            });
+        }
 
-            new MyPaymentDto
-            {
-                Payment = new PaymentDto
-                {
-                    Price = 100,
-                    ChangeDate = DateTime.Now
-                },
-                TicketType = new TicketTypeDto
-                {
-                    Title = "Some ticket",
-                    Description = "Some description."
-                },
-                Event = new EventDto
-                {
-                    Title = "Orlov Concert",
-                    Description = "The long-awaited Orlov big Stand-Up Concert!",
-                    Date = DateOnly.FromDateTime(DateTime.Now),
-                    StartTime = TimeOnly.FromDateTime(DateTime.Now - TimeSpan.FromHours(1)),
-                    EndTime = TimeOnly.FromDateTime(DateTime.Now + TimeSpan.FromHours(1)),
-                    ImageName = "orlov.png"
-                },
-                Organization = new OrganizationDto
-                {
-                    Name = "StandUp Club"
-                }
-            },
-        };
-
-        MyPayments = test;
+        
         
         return Page();
     }

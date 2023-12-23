@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="fs-6">
-                    <p class="mb-0">Price: @myPayment.Payment.Price</p>
+                    <p class="mb-0">Price: $@myPayment.TicketType.Price</p>
                     <p class="mb-0">Purchase date: @myPayment.Payment.ChangeDate</p>
                     <p class="mb-0">Event date: @myPayment.Event.Date</p>
                     @if (myPayment.Event.StartTime.HasValue)

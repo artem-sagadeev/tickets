@@ -20,5 +20,13 @@ namespace Web.Clients
 
             return JsonConvert.DeserializeObject<IEnumerable<TicketTypeDto>>(content) ?? Enumerable.Empty<TicketTypeDto>();
         }
+
+        public async Task<TicketTypeDto?> GetTicketType(Guid id)
+        {
+            var response = await _httpClient.GetAsync($"{id}");
+            var content = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<TicketTypeDto>(content);
+        }
     }
 }

@@ -21,8 +21,8 @@ public class TicketsClient
             Description = string.Empty,
             Price = price,
             MaxCount = maxCount,
-            SalesStartDate = DateTime.MinValue,
-            SalesEndDate = DateTime.MaxValue
+            SalesStartDate = DateTime.UtcNow.AddDays(-1),
+            SalesEndDate = DateTime.UtcNow.AddDays(1)
         });
         using var response = await _httpClient.PostAsync(url, content, cancellationToken);
         response.EnsureSuccessStatusCode();

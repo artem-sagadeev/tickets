@@ -1,4 +1,7 @@
-﻿namespace Web.Clients
+﻿using Newtonsoft.Json;
+using Web.Dto;
+
+namespace Web.Clients
 {
     public class PaymentsClient
     {
@@ -17,6 +20,14 @@
             var content = await response.Content.ReadAsStringAsync();
 
             return bool.Parse(content);
+        }
+
+        public async Task<IEnumerable<PaymentDto>> GetByUserId(Guid userId)
+        {
+            var response = await _httpClient.GetAsync($"byUser/{userId}");
+            var content = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<IEnumerable<PaymentDto>>(content) ?? Enumerable.Empty<PaymentDto>();
         }
     }
 }
